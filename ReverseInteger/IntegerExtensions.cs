@@ -2,11 +2,11 @@
 
 namespace ReverseInteger
 {
-	public class IntegerExtensions
+	public static class IntegerExtensions
 	{
 		private const char NEGATIVE_SIGN = '-';
 
-		public int Reverse(int x)
+		public static int Reverse(this int x)
 		{
 			var arr = x.ToString().ToCharArray();
 

@@ -11,44 +11,42 @@ namespace LongestPalindrome
 				return string.Empty;
 			}
 
-			var n = s.Length;
-
-			var table = new bool[n, n];
-
 			var maxLength = 1;
-
-			for (var i = 0; i < n; i++)
-			{
-				table[i, i] = true;
-			}
-
 			var startIndex = 0;
-			for (var i = 0; i < n - 1; ++i)
-			{
-				if (s.ElementAt(i) == s.ElementAt(i + 1))
-				{
-					table[i, i + 1] = true;
-					startIndex = i;
-					maxLength = 2;
-				}
-			}
+			var length = s.Length;
 
-			for (var k = 3; k <= n; ++k)
+			for (var i = 1; i < length; i++)
 			{
-				for (var i = 0; i < n-k+1; ++i)
-				{
-					var j = i + k - 1;
+				var lowIndex = i - 1;
+				var highIndex = i;
 
-					if (table[i + 1, j - 1] && s.ElementAt(i) == s.ElementAt(j))
+				while (lowIndex >= 0 && highIndex < length &&
+						s.ElementAt(lowIndex) == s.ElementAt(highIndex))
+				{
+					if (highIndex - lowIndex + 1 > maxLength)
 					{
-						table[i, j] = true;
-
-						if (k > maxLength)
-						{
-							startIndex = i;
-							maxLength = k;
-						}
+						startIndex = lowIndex;
+						maxLength = highIndex - lowIndex + 1;
 					}
+
+					highIndex++;
+					lowIndex--;
+				}
+
+				lowIndex = i - 1;
+				highIndex = i + 1;
+
+				while (lowIndex >= 0 && highIndex < length &&
+						s.ElementAt(lowIndex) == s.ElementAt(highIndex))
+				{
+					if (highIndex - lowIndex + 1 > maxLength)
+					{
+						startIndex = lowIndex;
+						maxLength = highIndex - lowIndex + 1;
+					}
+
+					lowIndex--;
+					highIndex++;
 				}
 			}
 
